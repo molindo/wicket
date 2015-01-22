@@ -30,19 +30,19 @@ public class JavascriptStripperTest extends TestCase
 	public void testUNIXWICKET501()
 	{
 		String s = JavascriptStripper.stripCommentsAndWhitespace("    // Handle the common XPath // expression\n    if ( !t.indexOf(\"//\") ) {");
-		assertEquals("  if ( !t.indexOf(\"//\") ) {", s);
+		assertEquals(" \n if ( !t.indexOf(\"//\") ) {", s);
 	}
 
 	public void testDOSWICKET501()
 	{
 		String s = JavascriptStripper.stripCommentsAndWhitespace("    // Handle the common XPath // expression\r\n    if ( !t.indexOf(\"//\") ) {");
-		assertEquals(" \nif ( !t.indexOf(\"//\") ) {", s);
+		assertEquals(" \r\nif ( !t.indexOf(\"//\") ) {", s);
 	}
 
 	public void testMACWICKET501()
 	{
 		String s = JavascriptStripper.stripCommentsAndWhitespace("    // Handle the common XPath // expression\r    if ( !t.indexOf(\"//\") ) {");
-		assertEquals("  if ( !t.indexOf(\"//\") ) {", s);
+		assertEquals(" \r if ( !t.indexOf(\"//\") ) {", s);
 	}
 
 	public void testRegexp()
@@ -54,7 +54,7 @@ public class JavascriptStripperTest extends TestCase
 	public void testRegexp2()
 	{
 		String s = JavascriptStripper.stripCommentsAndWhitespace("foo.replace(/\"//*strip me*/, \"\"); // strip me\rdoFoo();");
-		assertEquals("foo.replace(/\"/, \"\"); doFoo();", s);
+		assertEquals("foo.replace(/\"/, \"\"); \rdoFoo();", s);
 	}
 
 	public void testRegexp3()
@@ -68,7 +68,7 @@ public class JavascriptStripperTest extends TestCase
 	{
 		String before = " attr: /**/ //xyz\n /\\[((?:[\\w-]*:)?[\\w-]+)\\s*(?:([!^$*~|]?=)\\s*((['\"])([^\\4]*?)\\4|([^'\"][^\\]]*?)))?\\]/    after     regex";
 		String after = JavascriptStripper.stripCommentsAndWhitespace(before);
-		String expected = " attr:   /\\[((?:[\\w-]*:)?[\\w-]+)\\s*(?:([!^$*~|]?=)\\s*((['\"])([^\\4]*?)\\4|([^'\"][^\\]]*?)))?\\]/ after regex";
+		String expected = " attr:  \n /\\[((?:[\\w-]*:)?[\\w-]+)\\s*(?:([!^$*~|]?=)\\s*((['\"])([^\\4]*?)\\4|([^'\"][^\\]]*?)))?\\]/ after regex";
 		assertEquals(expected, after);
 		System.out.println(after);
 	}
