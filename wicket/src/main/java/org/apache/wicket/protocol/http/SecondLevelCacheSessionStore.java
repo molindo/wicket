@@ -191,7 +191,7 @@ public class SecondLevelCacheSessionStore extends HttpSessionStore
 	/**
 	 * Page map implementation for this session store.
 	 */
-	protected static final class SecondLevelCachePageMap extends PageMap
+	protected static class SecondLevelCachePageMap extends PageMap
 	{
 		private static final long serialVersionUID = 1L;
 
@@ -239,6 +239,20 @@ public class SecondLevelCacheSessionStore extends HttpSessionStore
 		protected void setLastPage(Page lastPage)
 		{
 			this.lastPage = lastPage;
+			onAfterLastPageSet(lastPage);
+		}
+
+		/**
+		 * @param lastPage
+		 *            newly set lastPage, might be null if unset
+		 */
+		protected void onAfterLastPageSet(Page lastPage)
+		{
+		}
+
+		protected void unsetLastPage()
+		{
+			setLastPage(null);
 		}
 
 		/**
@@ -248,7 +262,7 @@ public class SecondLevelCacheSessionStore extends HttpSessionStore
 		 * @param application
 		 * @param name
 		 */
-		private SecondLevelCachePageMap(String sessionId, Application application, String name)
+		protected SecondLevelCachePageMap(String sessionId, Application application, String name)
 		{
 			super(name);
 			applicationKey = application.getApplicationKey();
